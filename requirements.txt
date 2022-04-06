@@ -1,0 +1,7 @@
+django
+flake8
+pillow
+pylint
+whitenoise
+
+
