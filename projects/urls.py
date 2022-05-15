@@ -1,3 +1,6 @@
+"""
+    Definition des routes du module project
+"""
 from django.urls import path
 from . import views
  
