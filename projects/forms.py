@@ -13,4 +13,5 @@ class ProjectForm(ModelForm):
             Definir le nom de la table ciblee (model) et ses differents champs (fields)
         """
         model = Project
-        fields = '__all__'
+        fields = ['title', 'featured_image', 'description',
+                    'demo_link', 'source_link', 'tags']
