@@ -1,5 +1,5 @@
 """
-    Gener un formulaire a l'aide de la table deja creer
+    CReation de formulaire a l'aide de la table (Project) deja creee
 """
 from django.forms import ModelForm, widgets
 from django import forms
@@ -7,7 +7,7 @@ from .models import Project
 
 class ProjectForm(ModelForm):
     """
-        Creation du formulaire avec le model ModelForm de django
+        Creer un formulaire avec le model ModelForm de django
     """
     class Meta:
         """
@@ -21,6 +21,11 @@ class ProjectForm(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        """
+            Styliser le formulaire avec une class deja definit.
+            Pour la class deja definit c'est: input.
+            Le style etant repetitif, nous la parcourons avec un for
+        """
         super(ProjectForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():

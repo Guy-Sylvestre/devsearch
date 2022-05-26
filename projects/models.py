@@ -1,5 +1,5 @@
 """
-    Definition des tables leurs relations ainsi que toute les attributs qui les integres
+    Defiir les tables, leurs relations ainsi que tous les attributs qui les integres
 """
 from email.policy import default
 from django.db import models
@@ -7,7 +7,7 @@ import uuid
 
 class Project(models.Model):
     """
-        Definition de la table project avec ses attributs.
+        Definition de la table projet avec ses attributs.
         Systeme de relation: -Many to may (table Project & Tag)
                              -One to Many (table Project & Review)
     """
@@ -25,7 +25,7 @@ class Project(models.Model):
     
     def __str__(self):
         """
-            Afficher le titre  de la table  Project
+            Afficher le titre  de la table  Projet
         """
         return self.title
     

@@ -1,5 +1,5 @@
 """
-    Definition du comportement de chaque action
+    Definir le comportement de chaque action
 """
 from django.shortcuts import render, redirect
 from .models import Project
@@ -7,7 +7,7 @@ from .forms import ProjectForm
 
 def projects(request):
     """
-        Afficher toute les enregistrement de la table Project
+        Afficher tout les enregistrements de la table Project
     """
     projects = Project.objects.all()
 
@@ -32,7 +32,7 @@ def project(request, pk):
 
 def createProject(request):
     """
-        Creer un projet
+        Creer un projet avec une image
     """
     form = ProjectForm()
 
@@ -51,7 +51,7 @@ def createProject(request):
 
 def updateProject(request, pk):
     """
-        Mettre a jour un project deja existant
+        Mettre a jour un projet deja existant avec une image integree
     """
     project = Project.objects.get(pk=pk)
     form = ProjectForm(instance=project)
@@ -71,7 +71,7 @@ def updateProject(request, pk):
 
 def deleteProject(request, pk):
     """
-        Supprimer un project grace a son id
+        Supprimer un projet grace a son id
     """
     project = Project.objects.get(id=pk)
     if request.method == 'POST':
