@@ -6,7 +6,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("projects.urls")),
+    path("projects/", include("projects.urls")),
+    path("", include("users.urls")),
 ]
 
 #la route pour afficher l'image saisie dans la base de donnee
