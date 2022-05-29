@@ -9,6 +9,9 @@ from .models import Profile
 
 
 def profiles(request):
+    """
+        Afficher tout les profiles
+    """
     profiles = Profile.objects.all()
     context = {
         "profiles": profiles
@@ -17,6 +20,9 @@ def profiles(request):
 
 
 def userProfile(request, pk):
+    """
+        Acceder au profile d'un utilisateur
+    """
     profile = Profile.objects.get(id=pk)
     topSkills = profile.skill_set.exclude(description__exact="")
     otherSkills = profile.skill_set.filter(description="")
