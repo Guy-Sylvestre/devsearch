@@ -2,6 +2,7 @@
     Definir le comportement de chaque action
 """
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Project
 from .forms import ProjectForm
 
@@ -30,6 +31,7 @@ def project(request, pk):
     return render(request, 'projects/single-project.html', context)
 
 
+@login_required(login_url="login")
 def createProject(request):
     """
         Creer un projet avec une image
@@ -49,6 +51,7 @@ def createProject(request):
     return render (request, 'projects/project_form.html', context)
 
 
+@login_required(login_url="login")
 def updateProject(request, pk):
     """
         Mettre a jour un projet deja existant avec une image integree
@@ -69,6 +72,7 @@ def updateProject(request, pk):
     return render (request, 'projects/project_form.html', context)
 
 
+@login_required(login_url="login")
 def deleteProject(request, pk):
     """
         Supprimer un projet grace a son id

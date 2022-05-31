@@ -1,10 +1,48 @@
 """
     Definir le comportement de chaque action
 """
-from multiprocessing import context
-import profile
-from django.shortcuts import render
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 from .models import Profile
+
+
+def loginPage(request):
+
+
+    if request.user.is_authenticated:
+        return redirect("profiles")
+        
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, "Username does not exist")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect("profiles")
+        else:
+            messages.error(request, "Username OR password is incorrect")
+
+    context = {
+
+    }
+
+    return render(request, "users/login_register.html", context)
+
+
+def logoutUser(request):
+    logout(request)
+    messages.error(request, "User was logged out")
+    return redirect("login")
 
 
 
