@@ -1,0 +1,18 @@
+
+
+{% extends 'main.html' %}
+
+{% block tilte %} Users {% endblock tilte %}
+{% block content %}
+
+
+    <h1>Register User</h1>
+    <p>Already have an account <a href="{% url 'login' %}">Login</a></p>
+    <form class="form" method="POST" enctype="multipart/form-data">
+        
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Register User" />
+    </form>
+
+{% endblock content %}
