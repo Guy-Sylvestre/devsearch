@@ -1,5 +1,5 @@
 """
-    Definir les actions notificatives des actions cote back end
+    Definir les actions notificatives lors d'un post
 """
 from .models import Profile
 from django.contrib.auth.models import User

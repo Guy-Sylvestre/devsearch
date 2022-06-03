@@ -14,7 +14,8 @@ def loginPage(request):
     """
         Systeme de loging
     """
-    
+    page = "login"
+
     if request.user.is_authenticated:
         return redirect("profiles")
         
@@ -35,8 +36,11 @@ def loginPage(request):
         else:
             messages.error(request, "Username OR password is incorrect")
 
+    context = {
+        "page": page,
+    }
 
-    return render(request, "users/login.html")
+    return render(request, "users/login.html", context)
 
 
 def logoutUser(request):
@@ -44,7 +48,7 @@ def logoutUser(request):
         Systeme de deconnexion
     """
     logout(request)
-    messages.error(request, "User was logged out")
+    messages.info(request, "User was logged out")
     return redirect("login")
 
 
@@ -52,6 +56,7 @@ def registerUser(request):
     """
         Creer un utilisateur
     """
+    page = "register"
 
     form = CustomUserCreationForm()
 
@@ -71,6 +76,7 @@ def registerUser(request):
 
     context = {
         "form": form,
+        "page": page,
     }
 
     return render(request, "users/register.html", context)
