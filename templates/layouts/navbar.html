@@ -23,10 +23,10 @@
                     <li class="header__menuItem"><a href="{% url 'account' %}"> Account </a></li>
                     <li class="header__menuItem"><a href="{% url 'logout' %}" class="btn btn--sub"> Logout</a></li>
                 {% else %}
-                    {% if page == "login" %}
-                        <li class="header__menuItem"><a href="{% url 'login' %}" class="btn btn--sub"> Login </a></li>
-                    {% else %}
+                    {% if page == "register" %}
                         <li class="header__menuItem"><a href="{% url 'register' %}" class="btn btn--sub"> Sign Up </a></li>
+                    {% else %}
+                        <li class="header__menuItem"><a href="{% url 'login' %}" class="btn btn--sub"> Login </a></li>
                     {% endif %}
                 {% endif %}
             </ul>
