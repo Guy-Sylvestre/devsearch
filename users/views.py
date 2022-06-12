@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .forms import CustomUserCreationForm, ProfileForm
+from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 from django.shortcuts import render, redirect
 from .models import Profile
 
@@ -84,7 +84,7 @@ def registerUser(request):
 
 def profiles(request):
     """
-        Afficher tout les profiles
+        Afficher tous les profiles des utilisateurs enregistres dans la base de donnees
     """
     profiles = Profile.objects.all()
     context = {
@@ -95,7 +95,9 @@ def profiles(request):
 
 def userProfile(request, pk):
     """
-        Acceder au profile d'un utilisateur
+        Acceder au profile d'un utilisateur grace a son id
+        Afficher aussi grace a son id tous les projets et competence relative a l'utilisateur selectionne
+        Le tout sans onglet de modifications
     """
     profile = Profile.objects.get(id=pk)
     topSkills = profile.skill_set.exclude(description__exact="")
@@ -112,7 +114,11 @@ def userProfile(request, pk):
 
 @login_required(login_url="login")
 def userAccount(request):
-    
+    """
+        Acceder au profile de l'utilsateur connecte
+        Afficher tous les  projets et competences qui lui sont propre
+        Le tout avec onglet de modifications
+    """
     profile = request.user.profile
     skills = profile.skill_set.all()
     projects = profile.project_set.all()
@@ -128,7 +134,9 @@ def userAccount(request):
 
 @login_required(login_url="login")
 def editAccount(request):
-    
+    """
+        Acceder a la modifications des informations personnel de l'utilisateur s'il est connecte
+    """
     profile = request.user.profile
     form = ProfileForm(instance=profile)
     
@@ -143,3 +151,67 @@ def editAccount(request):
     }
     
     return render(request, "users/profile_form.html", context)
+
+
+@login_required(login_url="login")
+def createSkill(request):
+    """
+        Ajouter de nouvelle competences a l'utilisateur connecter
+    """
+    profile = request.user.profile
+    form = SkillForm()
+    
+    if request.method == "POST":
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            skill = form.save(commit=False)
+            skill.owner = profile
+            skill.save()
+            messages.success(request, f"{skill} was added succefully!")
+            return redirect("account")
+    
+    context = {
+        "form": form,
+    }
+    return render(request, "users/skill_form.html", context)
+
+
+@login_required(login_url="login")
+def updateSkill(request, pk):
+    """
+        Mettre a jour une competence precise de l'utilisateur
+    """
+    profile = request.user.profile
+    skill = profile.skill_set.get(id=pk)
+    form = SkillForm(instance=skill)
+    
+    if request.method == "POST":
+        form = SkillForm(request.POST, instance=skill)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"{skill} was updated succefully!")
+            return redirect("account")
+    
+    context = {
+        "form": form,
+    }
+    return render(request, "users/skill_form.html", context)
+
+
+@login_required(login_url="login")
+def deleteSKill(request, pk):
+    """
+        Supprimer une competence precise de l'utilisateur
+    """
+    profile = request.user.profile
+    skill = profile.skill_set.get(id=pk)
+    if request.method == 'POST':
+        skill.delete()
+        messages.success(request, f"{skill} was deleted succefully!")
+        return redirect('account')
+
+    context = {
+        "object": skill,
+    }
+
+    return render(request, 'users/delete_template.html', context)
