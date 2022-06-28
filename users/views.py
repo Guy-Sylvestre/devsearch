@@ -9,7 +9,7 @@ from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .models import Profile
-from .utils import searchProfiles
+from .utils import searchProfiles, paginationProfiles
 
 
 def loginPage(request):
@@ -91,9 +91,12 @@ def profiles(request):
     """
     profiles, search_query = searchProfiles(request)
     
+    custom_range, profiles = paginationProfiles(request, profiles, 3)
+    
     context = {
         "profiles": profiles,
-        "search_query": search_query
+        "search_query": search_query,
+        "custom_range": custom_range
     }
     return render(request, "users/profiles.html", context)
 

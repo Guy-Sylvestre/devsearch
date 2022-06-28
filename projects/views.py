@@ -7,7 +7,8 @@ from .models import Project, Tag
 from .forms import ProjectForm
 from django.db.models import Q
 from django.contrib import messages
-from .utils import searchProject
+from .utils import searchProject, paginationProjects
+
 
 def projects(request):
     """
@@ -15,10 +16,13 @@ def projects(request):
         Afficher tout les enregistrements de la table Project
     """
     projects, search_query = searchProject(request)
+    
+    custom_range, projects = paginationProjects(request, projects, 9)
 
     context = {
         'projects': projects,
-        "search_query": search_query
+        "search_query": search_query,
+        "custom_range": custom_range
     }
 
     return render(request, 'projects/projects.html', context)

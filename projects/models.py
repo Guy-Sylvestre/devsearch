@@ -16,7 +16,7 @@ class Project(models.Model):
     owner =  models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    featured_image = models.ImageField(null=True, blank=True, default="defaultjpg")
+    featured_image = models.ImageField(null=True, blank=True, default="default.jpg")
     demo_link = models.CharField(max_length=200, blank=True, null=True)
     tags = models.ManyToManyField('Tag', blank=True) 
     vote_total = models.IntegerField(default=0, null=True, blank=True)
@@ -31,6 +31,12 @@ class Project(models.Model):
             Afficher le titre  de la table  Projet
         """
         return self.title
+    
+    class Meta:
+        """
+            Trier les projets par orde de creation
+        """
+        ordering = ["created"]
     
     
 class Review(models.Model):
