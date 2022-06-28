@@ -3,18 +3,22 @@
 """
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Project
+from .models import Project, Tag
 from .forms import ProjectForm
+from django.db.models import Q
 from django.contrib import messages
+from .utils import searchProject
 
 def projects(request):
     """
+        Ajouter un systeme de recherche de projets
         Afficher tout les enregistrements de la table Project
     """
-    projects = Project.objects.all()
+    projects, search_query = searchProject(request)
 
     context = {
-        'projects': projects
+        'projects': projects,
+        "search_query": search_query
     }
 
     return render(request, 'projects/projects.html', context)

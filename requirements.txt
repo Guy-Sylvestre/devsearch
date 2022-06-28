@@ -3,5 +3,5 @@ flake8
 pillow
 pylint
 whitenoise
-
+django-filter
 

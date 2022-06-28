@@ -7,13 +7,15 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from .models import Profile
+from .utils import searchProfiles
 
 
 def loginPage(request):
     """
         Systeme de loging
-    """
+    """ 
     page = "login"
 
     if request.user.is_authenticated:
@@ -84,11 +86,14 @@ def registerUser(request):
 
 def profiles(request):
     """
-        Afficher tous les profiles des utilisateurs enregistres dans la base de donnees
+        Ajouter un systeme de recherche de profile
+        Afficher tout les enregistrements de la table Project
     """
-    profiles = Profile.objects.all()
+    profiles, search_query = searchProfiles(request)
+    
     context = {
-        "profiles": profiles
+        "profiles": profiles,
+        "search_query": search_query
     }
     return render(request, "users/profiles.html", context)
 
