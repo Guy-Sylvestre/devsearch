@@ -17,7 +17,7 @@ def projects(request):
     """
     projects, search_query = searchProject(request)
     
-    custom_range, projects = paginationProjects(request, projects, 9)
+    custom_range, projects = paginationProjects(request, projects, 6)
 
     context = {
         'projects': projects,
